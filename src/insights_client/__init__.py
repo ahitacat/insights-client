@@ -25,6 +25,8 @@ STABLE_EGG = "/var/lib/insights/last_stable.egg"
 RPM_EGG = "/etc/insights-client/rpm.egg"
 MOTD_FILE = "/etc/motd.d/insights-client"
 MOTD_SRC = "/etc/insights-client/insights-client.motd"
+TMP_PATH = os.path.join(os.sep, 'var', 'tmp')
+TMP_PREFIX = 'insights-client'
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +87,7 @@ def gpg_validate(path):
     if not os.path.exists(path + ".asc"):
         return False
 
-    home = tempfile.mkdtemp()
+    home = tempfile.mkdtemp(dir=TMP_PATH, prefix=TMP_PREFIX + '-')
 
     # Import the public keys into temporary environment
     import_process = subprocess.Popen(
